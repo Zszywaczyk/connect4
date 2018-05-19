@@ -9,10 +9,105 @@ namespace Laboratory2
 	{
 		private int position;
 		private ConsoleKeyInfo cki;
+		public string computerORplayer; //przechowuje stringa zaczynajacego gracza. Mozliwy: "player" lub "computer".
+		public char[] playersMark;
+
 
 		public KeyAction()
 		{
+			whosFirst(); //wybiera kto zaczyna
+			choiceMark(); //wybiera jaki gracz ma miec znak
+
 			this.position = 0;
+		}
+		public void whosFirst()
+		{
+			bool decision = false;
+			bool? leftOrRight= null;
+			while (decision==false)
+			{
+				
+				Console.WriteLine("Whos first: ");
+				Console.WriteLine("Computer\tPlayer");
+				//cki = Console.ReadKey();
+				if (cki.Key.ToString() == "RightArrow") {
+					Console.WriteLine("\t\t   ^");
+					leftOrRight = true;
+				}
+				else if (cki.Key.ToString() == "LeftArrow")
+				{
+					Console.WriteLine("   ^");
+					leftOrRight = false;
+				}
+
+					cki = Console.ReadKey();
+				if(cki.Key.ToString() == "Enter" && leftOrRight!=null)
+				{
+					if (leftOrRight == false) //wybrane z lewej
+					{
+						computerORplayer = "computer";
+						decision = true;
+					}
+					else if(leftOrRight == true) //wybrane z prawej
+					{
+						computerORplayer = "player";
+						decision = true;
+					}
+					Console.Clear();
+					Console.WriteLine(computerORplayer.ToUpper()+ " starts first!");
+					Console.WriteLine("Press any key...");
+					Console.ReadKey();
+				}
+					Console.Clear();
+
+			}
+		}
+		public void choiceMark()
+		{
+
+			playersMark = new char[2];
+			bool decision = false;
+			bool? leftOrRight = null;
+			while (decision == false)
+			{
+
+				Console.WriteLine("Now time to choice your Mark:");
+				Console.WriteLine("x\to");
+				//cki = Console.ReadKey();
+				if (cki.Key.ToString() == "RightArrow")
+				{
+					Console.WriteLine("\t^");
+					leftOrRight = true;
+				}
+				else if (cki.Key.ToString() == "LeftArrow")
+				{
+					Console.WriteLine("^");
+					leftOrRight = false;
+				}
+
+				cki = Console.ReadKey();
+				if (cki.Key.ToString() == "Enter" && leftOrRight!=null)
+				{
+					if (leftOrRight == false) //wybrane z lewej
+					{
+						playersMark[0] = 'x';
+						playersMark[1] = 'o';
+						decision = true;
+					}
+					else if (leftOrRight == true) //wybrane z prawej
+					{
+						playersMark[0] = 'o';
+						playersMark[1] = 'x';
+						decision = true;
+					}
+					Console.Clear();
+					Console.WriteLine("You chose: "+ playersMark[0]);
+					Console.WriteLine("Press any key...");
+					Console.ReadKey();
+				}
+				Console.Clear();
+
+			}
 		}
 
 		public int getColNum()

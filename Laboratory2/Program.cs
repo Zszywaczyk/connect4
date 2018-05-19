@@ -16,20 +16,24 @@ namespace Laboratory2 {
 			KeyAction keyAction = new KeyAction();
 			Connect4State startState = new Connect4State();
 
-            char[] playersMark = { 'o', 'x' };
             int i = 0;
+
+			
+
 			while (true)
 			{
                 Console.Clear();
                 if (i % 2 == 0)
                 {
                     Console.Write("Punkty: " + startState.ComputeHeuristicGrade() + "\n");
-                    Console.Write("KKKK: " + playersMark[i] + "\n");
+                    Console.Write("KKKK: " + keyAction.playersMark[i] + "\n");
 
                     startState.Print();
                     int choosenColumn = keyAction.getColNum();
 
-                    startState.insertToken(choosenColumn, playersMark[i]);
+                    startState.insertToken(choosenColumn, keyAction.playersMark[i]);
+					i = 1;
+					
                 }
                 else
                 {
@@ -44,8 +48,10 @@ namespace Laboratory2 {
                         Console.Write(kvp.Key + " " + kvp.Value + '\n');
                     }
 			        Console.ReadKey();
+					i = 0;
                 }
-                i = (++i) % 2;
+				//i = (++i) % 2;
+				
 			}
 
 
