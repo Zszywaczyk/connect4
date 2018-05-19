@@ -9,9 +9,18 @@ namespace Laboratory2
     {
         //private static int gridRows = 6;
         //private static int gridColumns = 7;
-        public const int GRIDSIZE = 8;
+        public readonly int GRIDSIZE;
         private string id;
+
+        private char[] tokens = { 'o', 'x' };
         private double[] pointsTable = { 0, 2, 4, 16, 1000 };
+        private Player currentPlayer;
+
+        public enum Player
+        {
+            MIN = 0,
+            MAX = 1
+        } 
 
         public char[,] table;// czy to moze byc static? Uzyje aby przechwycic w KeyAction.UsedKey()
         public char[,] Table
@@ -25,8 +34,12 @@ namespace Laboratory2
             get { return this.id; }
         }
 
-        public Connect4State()
+
+        public Connect4State(int gridSize, Player startingPlayer)
         {
+            GRIDSIZE = gridSize;
+            currentPlayer = (startingPlayer == Player.MAX ? Player.MIN : Player.MAX);
+
             table = new char[GRIDSIZE, GRIDSIZE];
             for (int i = 0; i < GRIDSIZE; i++)
             {
@@ -36,17 +49,73 @@ namespace Laboratory2
                 }
             }
 
+            this.h = 0;
             this.id = IDMaker();
         }
 
-        public Connect4State(Connect4State parent, int col, char playerToken) : base(parent)
+        public Connect4State(Connect4State parent, int column, bool ispPlayerTurn = false)
         {
-            this.table = parent.table;
+            this.GRIDSIZE = parent.GRIDSIZE;
+            currentPlayer = (parent.currentPlayer == Player.MIN ? Player.MAX : Player.MIN);
+
+            Table = new char[GRIDSIZE, GRIDSIZE];
+            Array.Copy(parent.Table, this.Table, Table.Length);
+
 
             //Przypisanie odpowiedniej heurystyki, 0 jeśli nie ma miejsca w kolumnie
-            if (this.getEmptyHight(col) > 0)
+            if (column >= 0 && this.getEmptyHight(column) > 0)
             {
-                insertToken(col, playerToken);
+                insertToken(column, tokens[(int)(currentPlayer)]);
+                this.h = ComputeHeuristicGrade();
+            }
+            else
+            {
+                this.h = 0;
+            }
+
+            //ustawienie stringa identyfikujacego stan.
+            this.id = IDMaker();
+
+            //ustawienie na ktorym poziomie w drzewie znajduje sie stan.
+            if (ispPlayerTurn)
+            {
+                this.depth = 0;
+                children = new List<IState>();
+                Parent = null;
+                rootMove = null;
+            }
+            else
+            {
+                this.depth = parent.depth + 0.5; // 0.5 (?)
+                if (parent.rootMove == null)
+                {
+                    this.rootMove = this.id;
+                }
+                else
+                {
+                    this.rootMove = parent.rootMove;
+                }
+            }
+
+            //Bardzo wazne nie ustawiamy na czubek drzewa z ktorego budujemy stan. Tylko na pierwsze pokolenie stanow potomnych
+            
+        }
+
+        public Connect4State(Connect4State parent, string key) : base(parent)
+        {
+            this.GRIDSIZE = parent.GRIDSIZE;
+            currentPlayer = (parent.currentPlayer == Player.MIN ? Player.MAX : Player.MIN);
+
+            Table = new char[GRIDSIZE, GRIDSIZE];
+            Array.Copy(parent.Table, this.Table, Table.Length);
+
+            int column = getColByKey(key);
+
+
+            //Przypisanie odpowiedniej heurystyki, 0 jeśli nie ma miejsca w kolumnie
+            if (column >= 0 && this.getEmptyHight(column) > 0)
+            {
+                insertToken(column, tokens[(int)(currentPlayer)]);
                 this.h = ComputeHeuristicGrade();
             }
             else
@@ -71,6 +140,29 @@ namespace Laboratory2
             }
             //Ustawienie stanu jako potomka rodzica
             parent.Children.Add(this);
+        }
+
+        public int getGridSize() { return GRIDSIZE; }
+
+        private int getColByKey(string key)
+        {
+            int column = -1;
+
+            for (int i = 0; i < GRIDSIZE; i++)
+            {
+                for (int j = 0; j < GRIDSIZE; j++)
+                {
+                    if (key[i * GRIDSIZE + j] != parent.ID[i * GRIDSIZE + j])
+                    {
+                        //Console.Write(key[i * GRIDSIZE + j] + " != " + parent.ID[i * GRIDSIZE + j]);
+                        //Console.ReadKey();
+
+                        column = j;
+                        break;
+                    }
+                }
+            }
+            return column;
         }
 
         public override double ComputeHeuristicGrade()

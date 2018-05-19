@@ -9,10 +9,12 @@ namespace Laboratory2
 	{
 		private int position;
 		private ConsoleKeyInfo cki;
+        private int gridsize;
 
-		public KeyAction()
+		public KeyAction(int gridsize)
 		{
 			this.position = 0;
+            this.gridsize = gridsize;
 		}
 
 		public int getColNum()
@@ -36,13 +38,13 @@ namespace Laboratory2
                     }
                     else
                     {
-                        this.position = Connect4State.GRIDSIZE - 1;
+                        this.position = gridsize - 1;
                     }
                 }
 
                 if (cki.Key.ToString() == "RightArrow")
                 {
-                    this.position = ++this.position % Connect4State.GRIDSIZE;
+                    this.position = ++this.position % gridsize;
                 }
 
                 if (cki.Key.ToString() == "Enter")

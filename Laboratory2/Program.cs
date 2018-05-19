@@ -5,45 +5,76 @@ using System.Text;
 
 namespace Laboratory2 {
     class Program {
-		public static bool computerFirst; //1 zaczyna komputer; 0 czlowiek
+		public static bool computerMax; //1 zaczyna komputer; 0 czlowiek
 
 		static void Main(string[] args) {
 			//Losowy start jak skoñczê heurystykê
-			computerFirst = true; //true jesli komputer zaczyna (pozniej zostanie zmienione)
-                                  //Console.SetWindowSize(50,20);//wysokosc i szerokosc konsoli w razie czego zmienic lub usunac
+			computerMax = true; //true jesli komputer zaczyna (pozniej zostanie zmienione)
+                                //Console.SetWindowSize(50,20);//wysokosc i szerokosc konsoli w razie czego zmienic lub usunac
 
+            const int GRIDSIZE = 8;
+			Connect4State startState = new Connect4State(GRIDSIZE, Connect4State.Player.MIN);
+            KeyAction keyAction = new KeyAction(GRIDSIZE);
 
-			KeyAction keyAction = new KeyAction();
-			Connect4State startState = new Connect4State();
-
-            char[] playersMark = { 'o', 'x' };
             int i = 0;
 			while (true)
 			{
                 Console.Clear();
-                if (i % 2 == 0)
+                if (i % 2 == 0) 
                 {
                     Console.Write("Punkty: " + startState.ComputeHeuristicGrade() + "\n");
-                    Console.Write("KKKK: " + playersMark[i] + "\n");
+                    //Console.Write("Player mark: " + playersMark[i] + "\n");
 
                     startState.Print();
                     int choosenColumn = keyAction.getColNum();
 
-                    startState.insertToken(choosenColumn, playersMark[i]);
+                    startState = new Connect4State(startState, choosenColumn, true);
+                    //Console.Clear();
+                    //startState.Print();
+                    //Console.ReadKey();
                 }
                 else
                 {
-                    Connect4Search search = new Connect4Search(startState, true, 1);
+                    Connect4Search search = new Connect4Search(startState, computerMax, 2);
                     search.DoSearch();
 
 
                     Console.Write("Length: " + search.MovesMiniMaxes.Count + '\n');
+
+                    double alpha = 0;
+                    if (computerMax)
+                    {
+                        alpha = double.NegativeInfinity;
+                    }
+                    else if (!computerMax)
+                    {
+                        alpha = double.PositiveInfinity;
+                    }
+
+
+                    string key = startState.ID;
                     foreach (KeyValuePair<string, double> kvp in search.MovesMiniMaxes)
                     {
-                        Console.Write(kvp.Key.Length + "<- le ");
-                        Console.Write(kvp.Key + " " + kvp.Value + '\n');
+                        //Console.Write(kvp.Key.Length + "<- le ");
+                        //Console.Write(kvp.Key + " " + kvp.Value + '\n');
+
+                        if (computerMax && kvp.Value > alpha)
+                        {
+                            alpha = kvp.Value;
+                            key = kvp.Key;
+                        }
+
+                        if (!computerMax && kvp.Value < alpha)
+                        {
+                            alpha = kvp.Value;
+                            key = kvp.Key;
+                        }
+
                     }
-			        Console.ReadKey();
+                    startState = new Connect4State(startState, key);
+
+
+                    Console.ReadKey();
                 }
                 i = (++i) % 2;
 			}

@@ -23,15 +23,19 @@ namespace Laboratory2
             }
             markIdx = markIdx % 2;
 
-            Connect4State state = (Connect4State)parent;
+            Connect4State state = parent as Connect4State;
 
+            //Console.Write("buildChilden Gridsize: " + state.getGridSize() + '\n');
 
-            for (int i = 0; i < Connect4State.GRIDSIZE; i++)
+            for (int i = 0; i < state.getGridSize(); i++)
             {
 
-                Connect4State child = new Connect4State(state, i, playersChars[markIdx]);
-                //parent.Children.Add(child);
+                Connect4State child = new Connect4State(state, i);
+                //Console.Write("buildChildren child: " + i + '\n');
+
+                parent.Children.Add(child);
             }
+            //Console.ReadKey();
 		}
         
 	}
