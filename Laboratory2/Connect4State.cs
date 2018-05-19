@@ -192,7 +192,21 @@ namespace Laboratory2
                     }
                 }
             }
-            double h = maxPoints + minPoints;
+
+            double h = 0;
+
+            if (double.IsInfinity(maxPoints))
+            {
+                h = double.PositiveInfinity;
+            }
+            else if (double.IsInfinity(minPoints))
+            {
+                h = double.NegativeInfinity;
+            }
+            else
+            {
+                h = maxPoints + minPoints;
+            }
 
             return h;
         }
