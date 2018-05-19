@@ -35,11 +35,11 @@ namespace Laboratory2 {
                 }
                 else
                 {
-                    Connect4Search search = new Connect4Search(startState, computerMax, 2);
+                    Connect4Search search = new Connect4Search(startState, computerMax, 3);
                     search.DoSearch();
 
 
-                    Console.Write("Length: " + search.MovesMiniMaxes.Count + '\n');
+                    //Console.Write("Length: " + search.MovesMiniMaxes.Count + '\n');
 
                     double alpha = 0;
                     if (computerMax)
@@ -74,7 +74,7 @@ namespace Laboratory2 {
                     startState = new Connect4State(startState, key);
 
 
-                    Console.ReadKey();
+                    //Console.ReadKey();
                 }
                 i = (++i) % 2;
 			}

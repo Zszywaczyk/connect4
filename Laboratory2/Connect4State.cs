@@ -13,7 +13,7 @@ namespace Laboratory2
         private string id;
 
         private char[] tokens = { 'o', 'x' };
-        private double[] pointsTable = { 0, 2, 4, 16, 1000 };
+        private double[] pointsTable = { 0, 2, 4, 16 };
         private Player currentPlayer;
 
         public enum Player
@@ -318,7 +318,7 @@ namespace Laboratory2
                 }
             }
 
-            return pointsTable[counter];
+            return getPoints(counter);
         }
         
         private double getColPoints(char c, int row, int col)
@@ -338,7 +338,7 @@ namespace Laboratory2
                 }
             }
 
-            return pointsTable[counter];
+            return getPoints(counter);
         }
 
         private double getRDiagPoints(char c, int row, int col)
@@ -358,7 +358,7 @@ namespace Laboratory2
                 }
             }
 
-            return pointsTable[counter];
+            return getPoints(counter);
         }
 
         private double getLDiagPoints(char c, int row, int col)
@@ -378,10 +378,29 @@ namespace Laboratory2
                 }
             }
 
-            return pointsTable[counter];
+            return getPoints(counter);
         }
 
-        
+        private double getPoints(int count)
+        {
+            double points = 0;
+            if (count < 4)
+            {
+                points = pointsTable[count];
+            }
+            else
+            {
+                if (currentPlayer == Player.MIN)
+                {
+                    points = double.NegativeInfinity;
+                }
+                else
+                {
+                    points = double.PositiveInfinity;
+                }
+            }
+            return points;
+        }
 
         private string IDMaker()
         {
