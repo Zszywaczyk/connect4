@@ -123,62 +123,61 @@ namespace Laboratory2 {
 			if(computerMax==true && double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				Console.WriteLine("Computer wins!\n\n");
-				nextStep();
+				nextStep("Computer wins!\n\n");
 			}
 			else if(computerMax == false && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				Console.WriteLine("Human wins!\n\n");
-				nextStep();
+				nextStep("Human wins!\n\n");
 			}
 			else if (computerMax == true && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				Console.WriteLine("Human wins!\n\n");
-				nextStep();
+				nextStep("Human wins!\n\n");
 			}
 			else if (computerMax == false && double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				Console.WriteLine("Computer wins!\n\n");
-				nextStep();
+				nextStep("Computer wins!\n\n");
 			}
 		}
-		public static void nextStep() {
-			ConsoleKeyInfo cki= new ConsoleKeyInfo();
-			bool decision = false;
-			bool? leftOrRight = null;
-			while (decision == false)
-			{
 
-				Console.WriteLine("Exit\tPlay again");
+		public static void nextStep(String whoWon) {
+			bool decision = false;
+            bool playAgain = false;
+            ConsoleKeyInfo cki = new ConsoleKeyInfo();
+
+            while (decision == false)
+			{
+                Console.WriteLine(whoWon);
+
+                Console.WriteLine("Exit\tPlay again");
 				//cki = Console.ReadKey();
 				if (cki.Key.ToString() == "RightArrow")
 				{
 					Console.WriteLine("\t     ^");
-					leftOrRight = true;
+					playAgain = true;
 				}
 				else if (cki.Key.ToString() == "LeftArrow")
 				{
 					Console.WriteLine(" ^");
-					leftOrRight = false;
+					playAgain = false;
 				}
 
 				cki = Console.ReadKey();
 				Console.Clear();
-				if (cki.Key.ToString() == "Enter" && leftOrRight != null)
+				if (cki.Key.ToString() == "Enter")
 				{
-					if (leftOrRight == false) //wybrane z lewej
+					if (playAgain == false) //wybrane z lewej
 					{
 						System.Environment.Exit(1);
 					}
-					else if (leftOrRight == true) //wybrane z prawej
+					else if (playAgain == true) //wybrane z prawej
 					{
 						string[] kolko= { };
 						Main(kolko);
 					}
-					
+                    decision = true;
 				}
 			}
 		}

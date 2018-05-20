@@ -13,7 +13,7 @@ namespace Laboratory2
         private string id;
 
         private char[] tokens = KeyAction.playersMark;
-        private double[] pointsTable = { 0, 2, 4, 16 };
+        private double[] pointsTable = { 0, 1, 4, 16 };
         private Player currentPlayer;
 
         public enum Player
@@ -175,7 +175,7 @@ namespace Laboratory2
             // 4 = ~~ -~~ (infinity)
 
             double minPoints = 0, maxPoints = 0;
-            char minChar = 'o', maxChar = 'x';
+            char maxChar = KeyAction.playersMark[0], minChar = KeyAction.playersMark[1];
 
             // Liczenie punktów dla każdej kolumny
             for (int col = 0; col < GRIDSIZE; col++)
@@ -357,7 +357,7 @@ namespace Laboratory2
 
         private double getRDiagPoints(char c, int row, int col)
         {
-            int counter = 0;
+            int counter = 1;
 
             int i = 0;
             for (int down = row + 1; down < GRIDSIZE && ++i < 4; down++)
@@ -377,12 +377,12 @@ namespace Laboratory2
 
         private double getLDiagPoints(char c, int row, int col)
         {
-            int counter = 0;
+            int counter = 1;
 
             int i = 0;
             for (int down = row + 1; down < GRIDSIZE && ++i < 4; down++)
             {
-                if (--col > 0 && Table[down, col] == c)
+                if (--col >= 0 && Table[down, col] == c)
                 {
                     counter++;
                 }

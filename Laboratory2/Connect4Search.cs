@@ -14,29 +14,14 @@ namespace Laboratory2
 
 		protected override void buildChildren(IState parent)
 		{
-            //char[] playersChars = { 'x', 'o' };
-			//playersChars = KeyAction.playersMark;
-
-            int markIdx = (int)parent.Depth;
-            if (isMaximizingPlayerFirst)
-            {
-                markIdx++;
-            }
-            markIdx = markIdx % 2;
-
             Connect4State state = parent as Connect4State;
-
-            //Console.Write("buildChilden Gridsize: " + state.getGridSize() + '\n');
 
             for (int i = 0; i < state.getGridSize(); i++)
             {
 
                 Connect4State child = new Connect4State(state, i);
-                //Console.Write("buildChildren child: " + i + '\n');
-
                 parent.Children.Add(child);
             }
-            //Console.ReadKey();
 		}
         
 	}

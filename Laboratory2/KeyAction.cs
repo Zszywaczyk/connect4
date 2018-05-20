@@ -12,7 +12,7 @@ namespace Laboratory2
         private int gridsize;
 
 		public string computerORplayer = "player"; //przechowuje stringa zaczynajacego gracza. Mozliwy: "player" lub "computer".
-		public bool computerStarts = false;
+		public bool computerStarts = true;
 		public static char[] playersMark = { 'o', 'x' };
 		public int depth = 3;
 
@@ -29,7 +29,7 @@ namespace Laboratory2
 		private void whosFirst()
 		{
 			bool decision = false;
-			bool? leftOrRight = null;
+            bool playerFirst = false;
 			while (decision == false)
 			{
 
@@ -39,24 +39,24 @@ namespace Laboratory2
 				if (cki.Key.ToString() == "RightArrow")
 				{
 					Console.WriteLine("\t\t   ^");
-					leftOrRight = true;
+					playerFirst = true;
 				}
 				else if (cki.Key.ToString() == "LeftArrow")
 				{
 					Console.WriteLine("   ^");
-					leftOrRight = false;
+					playerFirst = false;
 				}
 
 				cki = Console.ReadKey();
-				if (cki.Key.ToString() == "Enter" && leftOrRight != null)
+				if (cki.Key.ToString() == "Enter")
 				{
-					if (leftOrRight == false) //wybrane z lewej
+					if (playerFirst == false) //wybrane z lewej
 					{
 						computerStarts = true;
 						computerORplayer = "computer";
 						decision = true;
 					}
-					else if (leftOrRight == true) //wybrane z prawej
+					else if (playerFirst == true) //wybrane z prawej
 					{
 						computerStarts = false;
 						computerORplayer = "player";
@@ -67,7 +67,7 @@ namespace Laboratory2
 					Console.WriteLine("Press any key...");
 					Console.ReadKey();
 				}
-				else if (cki.Key.ToString() == "Enter" && leftOrRight == null)
+				else if (cki.Key.ToString() == "Enter")
 				{
 					break;
 				}
@@ -80,65 +80,69 @@ namespace Laboratory2
 
 			//playersMark = new char[2];
 			bool decision = false;
-			bool? leftOrRight = null;
+            bool isPlayerMarkO = false;
+
 			while (decision == false)
 			{
 
-				Console.WriteLine("Now time to choice MARK of first player:");
+				Console.WriteLine("Now time to choice mark of PLAYER:");
 				Console.WriteLine("x\to");
 				//cki = Console.ReadKey();
 				if (cki.Key.ToString() == "RightArrow")
 				{
 					Console.WriteLine("\t^");
-					leftOrRight = true;
+                    isPlayerMarkO = true;
 				}
 				else if (cki.Key.ToString() == "LeftArrow")
 				{
 					Console.WriteLine("^");
-					leftOrRight = false;
+                    isPlayerMarkO = false;
 				}
 
 				cki = Console.ReadKey();
-				if (cki.Key.ToString() == "Enter" && leftOrRight != null)
+				if (cki.Key.ToString() == "Enter")
 				{
-					if (leftOrRight == false) //wybrane z lewej
-					{
-						playersMark[0] = 'x';
-						playersMark[1] = 'o';
-						decision = true;
-					}
-					else if (leftOrRight == true) //wybrane z prawej
-					{
-						playersMark[0] = 'o';
-						playersMark[1] = 'x';
-						decision = true;
-					}
+                    if (computerStarts)
+                    {
+                        playersMark[0] = (isPlayerMarkO ? 'x' : 'o');
+                        playersMark[1] = (isPlayerMarkO ? 'o' : 'x');
+                    }
+                    else
+                    {
+                        playersMark[0] = (isPlayerMarkO ? 'o' : 'x');
+                        playersMark[1] = (isPlayerMarkO ? 'x' : 'o');
+                    }
+                    decision = true;
+
 					Console.Clear();
-					Console.WriteLine("You chose: " + playersMark[0]);
+					Console.WriteLine("You chose: " + (computerStarts ? playersMark[1] : playersMark[0]));
 					Console.WriteLine("Press any key...");
 					Console.ReadKey();
-				}
-				else if(cki.Key.ToString() == "Enter" && leftOrRight == null)
-				{
-					break;
 				}
 				Console.Clear();
 
 			}
 			Console.Clear();
 		}
+
 		private void howDepth()
 		{
-			Console.Write("How depth: ");
-			try
-			{
-				int x = Convert.ToInt32(Console.ReadLine());
-				depth = x;
-			}
-			catch(Exception e)
-			{
-				System.Diagnostics.Debug.WriteLine(e);
-			}
+            int x = 0;
+
+            while (x == 0)
+            {
+                Console.Clear();
+                Console.Write("How depth: ");
+                try
+                {
+                    x = Convert.ToInt32(Console.ReadLine());
+                    depth = x;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                }
+            }
 		}
 
 		public int getColNum()
