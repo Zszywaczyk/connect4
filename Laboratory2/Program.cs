@@ -138,7 +138,7 @@ namespace Laboratory2 {
 			else if(computerMax == false && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				nextStep("Human wins!\n\n");
+				nextStep("Computer wins!\n\n");
 			}
 			else if (computerMax == true && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
 			{
@@ -148,7 +148,7 @@ namespace Laboratory2 {
 			else if (computerMax == false && double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				nextStep("Computer wins!\n\n");
+				nextStep("Human wins!\n\n");
 			}
 		}
 
