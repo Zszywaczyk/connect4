@@ -430,5 +430,17 @@ namespace Laboratory2
 
             return builder.ToString();
         }
+
+        public bool isFullState()
+        {
+            int empties = 0;
+            for (int i = 0; i < GRIDSIZE; i++)
+            {
+                empties += getEmptyHight(i);
+                if (empties > 0) return false;
+            }
+            return true;
+        }
     }
+
 }

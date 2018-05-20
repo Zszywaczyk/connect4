@@ -103,8 +103,18 @@ namespace Laboratory2 {
 
                     //Console.ReadKey();
                 }
-                i = (++i) % 2;
-			}
+
+                if (startState.isFullState())
+                {
+                    Console.Clear();
+                    Console.Write("!!!REMIS!!!");
+                    return;
+                }
+                else
+                {
+                    i = (++i) % 2;
+                }
+            }
 
 
 			//cki = Console.ReadKey();
