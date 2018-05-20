@@ -14,17 +14,19 @@ namespace Laboratory2
 		public string computerORplayer = "player"; //przechowuje stringa zaczynajacego gracza. Mozliwy: "player" lub "computer".
 		public bool computerStarts = false;
 		public static char[] playersMark = { 'o', 'x' };
+		public int depth = 3;
 
 		public KeyAction(int gridsize)
 		{
 			whosFirst(); //wybiera kto zaczyna
 			choiceMark(); //wybiera jaki gracz ma miec znak
+			howDepth();
 
 			this.position = 0;
             this.gridsize = gridsize;
 		}
 
-		public void whosFirst()
+		private void whosFirst()
 		{
 			bool decision = false;
 			bool? leftOrRight = null;
@@ -65,11 +67,15 @@ namespace Laboratory2
 					Console.WriteLine("Press any key...");
 					Console.ReadKey();
 				}
+				else if (cki.Key.ToString() == "Enter" && leftOrRight == null)
+				{
+					break;
+				}
 				Console.Clear();
-
 			}
+			Console.Clear();
 		}
-		public void choiceMark()
+		private void choiceMark()
 		{
 
 			//playersMark = new char[2];
@@ -112,8 +118,26 @@ namespace Laboratory2
 					Console.WriteLine("Press any key...");
 					Console.ReadKey();
 				}
+				else if(cki.Key.ToString() == "Enter" && leftOrRight == null)
+				{
+					break;
+				}
 				Console.Clear();
 
+			}
+			Console.Clear();
+		}
+		private void howDepth()
+		{
+			Console.Write("How depth: ");
+			try
+			{
+				int x = Convert.ToInt32(Console.ReadLine());
+				depth = x;
+			}
+			catch(Exception e)
+			{
+				System.Diagnostics.Debug.WriteLine(e);
 			}
 		}
 

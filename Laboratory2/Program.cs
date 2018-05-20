@@ -62,7 +62,7 @@ namespace Laboratory2 {
 				}
                 else
                 {
-                    Connect4Search search = new Connect4Search(startState, computerMax, 3);
+                    Connect4Search search = new Connect4Search(startState, computerMax, keyAction.depth);
                     search.DoSearch();
 
 
@@ -166,6 +166,7 @@ namespace Laboratory2 {
 				}
 
 				cki = Console.ReadKey();
+				Console.Clear();
 				if (cki.Key.ToString() == "Enter" && leftOrRight != null)
 				{
 					if (leftOrRight == false) //wybrane z lewej
