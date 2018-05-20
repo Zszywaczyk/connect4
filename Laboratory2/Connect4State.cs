@@ -12,7 +12,7 @@ namespace Laboratory2
         public readonly int GRIDSIZE;
         private string id;
 
-        private char[] tokens = { 'o', 'x' };
+        private char[] tokens = KeyAction.playersMark;
         private double[] pointsTable = { 0, 2, 4, 16 };
         private Player currentPlayer;
 
@@ -22,7 +22,7 @@ namespace Laboratory2
             MAX = 1
         } 
 
-        public char[,] table;// czy to moze byc static? Uzyje aby przechwycic w KeyAction.UsedKey()
+        public char[,] table;
         public char[,] Table
         {
             get { return table; }

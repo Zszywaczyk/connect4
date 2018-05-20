@@ -14,7 +14,8 @@ namespace Laboratory2
 
 		protected override void buildChildren(IState parent)
 		{
-            char[] playersChars = { 'o', 'x' };
+            //char[] playersChars = { 'x', 'o' };
+			//playersChars = KeyAction.playersMark;
 
             int markIdx = (int)parent.Depth;
             if (isMaximizingPlayerFirst)

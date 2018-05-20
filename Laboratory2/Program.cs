@@ -9,30 +9,57 @@ namespace Laboratory2 {
 
 		static void Main(string[] args) {
 			//Losowy start jak skoñczê heurystykê
-			computerMax = true; //true jesli komputer zaczyna (pozniej zostanie zmienione)
+			//computerMax = false; //true jesli komputer zaczyna (pozniej zostanie zmienione)
                                 //Console.SetWindowSize(50,20);//wysokosc i szerokosc konsoli w razie czego zmienic lub usunac
 
             const int GRIDSIZE = 8;
 			Connect4State startState = new Connect4State(GRIDSIZE, Connect4State.Player.MIN);
             KeyAction keyAction = new KeyAction(GRIDSIZE);
 
-            int i = 0;
+			int i;
+			if (keyAction.computerStarts == false)
+			{
+				i = 0;
+				computerMax = false;
+			}
+			else
+			{
+				i = 1;
+				computerMax = true;
+			}
+
+
 			while (true)
 			{
                 Console.Clear();
                 if (i % 2 == 0) 
                 {
+					
                     Console.Write("Punkty: " + startState.ComputeHeuristicGrade() + "\n");
+					
                     //Console.Write("Player mark: " + playersMark[i] + "\n");
 
                     startState.Print();
-                    int choosenColumn = keyAction.getColNum();
+					if (double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
+					{
+						Console.WriteLine("We have a winner!\nPress any key...");
+						Console.ReadKey();
+						weHaveAWinner(startState);
+					}
+					else if (double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
+					{
+						Console.WriteLine("We have a winner!\nPress any key...");
+						Console.ReadKey();
+						weHaveAWinner(startState);
+					}
+					int choosenColumn = keyAction.getColNum();
 
                     startState = new Connect4State(startState, choosenColumn, true);
-                    //Console.Clear();
-                    //startState.Print();
-                    //Console.ReadKey();
-                }
+					//Console.Clear();
+					//startState.Print();
+					//Console.ReadKey();
+					
+				}
                 else
                 {
                     Connect4Search search = new Connect4Search(startState, computerMax, 3);
@@ -90,6 +117,69 @@ namespace Laboratory2 {
 			Console.ReadKey();
 
 
+		}
+		public static void weHaveAWinner(Connect4State startState)
+		{
+			if(computerMax==true && double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
+			{
+				Console.Clear();
+				Console.WriteLine("Computer wins!\n\n");
+				nextStep();
+			}
+			else if(computerMax == false && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
+			{
+				Console.Clear();
+				Console.WriteLine("Computer wins!\n\n");
+				nextStep();
+			}
+			else if (computerMax == true && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
+			{
+				Console.Clear();
+				Console.WriteLine("Human wins!\n\n");
+				nextStep();
+			}
+			else if (computerMax == false && double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
+			{
+				Console.Clear();
+				Console.WriteLine("Human wins!\n\n");
+				nextStep();
+			}
+		}
+		public static void nextStep() {
+			ConsoleKeyInfo cki= new ConsoleKeyInfo();
+			bool decision = false;
+			bool? leftOrRight = null;
+			while (decision == false)
+			{
+
+				Console.WriteLine("Exit\tPlay again");
+				//cki = Console.ReadKey();
+				if (cki.Key.ToString() == "RightArrow")
+				{
+					Console.WriteLine("\t     ^");
+					leftOrRight = true;
+				}
+				else if (cki.Key.ToString() == "LeftArrow")
+				{
+					Console.WriteLine(" ^");
+					leftOrRight = false;
+				}
+
+				cki = Console.ReadKey();
+				if (cki.Key.ToString() == "Enter" && leftOrRight != null)
+				{
+					if (leftOrRight == false) //wybrane z lewej
+					{
+						System.Environment.Exit(1);
+					}
+					else if (leftOrRight == true) //wybrane z prawej
+					{
+						string[] kolko= { };
+						Main(kolko);
+					}
+					
+				}
+			}
 		}
     }
 }
