@@ -28,7 +28,7 @@ namespace Laboratory2 {
 				computerMax = true;
 			}
 
-
+			//defoult jest player first, o dla player
 			while (true)
 			{
                 Console.Clear();
@@ -129,7 +129,7 @@ namespace Laboratory2 {
 			else if(computerMax == false && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				Console.WriteLine("Computer wins!\n\n");
+				Console.WriteLine("Human wins!\n\n");
 				nextStep();
 			}
 			else if (computerMax == true && double.IsNegativeInfinity(startState.ComputeHeuristicGrade()))
@@ -141,7 +141,7 @@ namespace Laboratory2 {
 			else if (computerMax == false && double.IsPositiveInfinity(startState.ComputeHeuristicGrade()))
 			{
 				Console.Clear();
-				Console.WriteLine("Human wins!\n\n");
+				Console.WriteLine("Computer wins!\n\n");
 				nextStep();
 			}
 		}
